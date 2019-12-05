@@ -1,11 +1,10 @@
 import gym
-from gym.spaces import Box
+from gym.spaces import MultiDiscrete
 import rclpy
 import random
 import numpy
 from typing import Sequence, Tuple, Type
-#from openai_ros2.robots.lobot.lobot_arm_sim import LobotArmSim  #for multidiscrete
-from openai_ros2.robots.lobot.lobot_arm_sim_continuous import LobotArmConActSim
+from openai_ros2.robots.lobot.lobot_arm_sim import LobotArmSim
 from openai_ros2.robots.lobot.tasks.basic_movement_random_goal import LobotArmBasicMovementRandomGoal
 
 class LobotArmMoveSimpleRandomGoalEnv(gym.Env):
@@ -21,9 +20,9 @@ class LobotArmMoveSimpleRandomGoalEnv(gym.Env):
     def __init__(self):
         rclpy.init()
         self.node = rclpy.create_node(self.__class__.__name__)
-        possible_action_count = len(LobotArmConActSim.Action)
-        self.action_space = Box(-1.57079632679, 1.57079632679, shape=(3,1))  #TODO more dimension limit, i.e. -2 to 2 for joint1, -1 to 1 for joint2
-        self.__robot = LobotArmConActSim(self.node)
+        possible_action_count = len(LobotArmSim.Action)
+        self.action_space = MultiDiscrete([possible_action_count, possible_action_count, possible_action_count])
+        self.__robot = LobotArmSim(self.node)
         self.__task = LobotArmBasicMovementRandomGoal(self.node)
         # Set up ROS related variables
         self.__episode_num = 0
@@ -32,7 +31,7 @@ class LobotArmMoveSimpleRandomGoalEnv(gym.Env):
 
     def step(self, action: numpy.ndarray) -> Tuple[ObservationData, float, bool, str]:
         self.__robot.set_action(action)
-        robot_state: LobotArmConActSim.Observation = self.__robot.get_observations()
+        robot_state: LobotArmSim.Observation = self.__robot.get_observations()
         obs = LobotArmMoveSimpleRandomGoalEnv.ObservationData()
         obs.step_count = self.__step_num
         obs.position_data = robot_state.position_data
