@@ -19,7 +19,7 @@ class LobotArmMoveRandomConActEnv(gym.Env):
     def __init__(self):
         rclpy.init()
         self.node = rclpy.create_node(self.__class__.__name__)
-        possible_action_count = len(LobotArmConActSim.Action)
+        #possible_action_count = len(LobotArmConActSim.Action)
         self.action_space = Box(numpy.array([-2.356,-1.57079632679,-1.57079632679]), numpy.array([2.356,1.57079632679,1.57079632679]), dtype=numpy.float32)    #TODO more dimension limit, i.e. -2 to 2 for joint1, -1 to 1 for joint2
         self.__robot = LobotArmConActSim(self.node)
         self.__task = LobotArmBasicMovementRandomGoal(self.node)
@@ -31,13 +31,13 @@ class LobotArmMoveRandomConActEnv(gym.Env):
     def step(self, action: numpy.ndarray) -> Tuple[ObservationData, float, bool, str]:
         self.__robot.set_action(action)
         robot_state: LobotArmConActSim.Observation = self.__robot.get_observations()
-        obs = LobotArmMoveSimpleConActEnv.ObservationData()
+        obs = LobotArmMoveRandomConActEnv.ObservationData()
         obs.step_count = self.__step_num
         obs.position_data = robot_state.position_data
         obs.velocity_data = robot_state.velocity_data
         obs.contact_count = robot_state.contact_count
         obs.contacts = robot_state.contacts
-        reward = self.__task.compute_reward(obs.position_data, self.__step_num)
+        reward, obs.random_target_coord = self.__task.compute_reward(obs.position_data, self.__step_num)  #TODO add in random target for trainig
         done = self.__task.is_done(obs.position_data, robot_state.contact_count, self.__step_num)
         info = ""
         self.__cumulated_episode_reward += reward
