@@ -5,9 +5,9 @@ import random
 import numpy
 from typing import Sequence, Tuple, Type
 from openai_ros2.robots.lobot.lobot_arm_sim_continuous import LobotArmConActSim
-from openai_ros2.robots.lobot.tasks.basic_movement import LobotArmBasicMovement
+from openai_ros2.robots.lobot.tasks.basic_movement_random_goal import LobotArmBasicMovementRandomGoal
 
-class LobotArmMoveSimpleConActEnv(gym.Env):
+class LobotArmMoveRandomConActEnv(gym.Env):
     class ObservationData:
         position_data: numpy.ndarray = numpy.array([])
         velocity_data: numpy.ndarray = numpy.array([])
@@ -22,7 +22,7 @@ class LobotArmMoveSimpleConActEnv(gym.Env):
         possible_action_count = len(LobotArmConActSim.Action)
         self.action_space = Box(numpy.array([-2.356,-1.57079632679,-1.57079632679]), numpy.array([2.356,1.57079632679,1.57079632679]), dtype=numpy.float32)    #TODO more dimension limit, i.e. -2 to 2 for joint1, -1 to 1 for joint2
         self.__robot = LobotArmConActSim(self.node)
-        self.__task = LobotArmBasicMovement(self.node)
+        self.__task = LobotArmBasicMovementRandomGoal(self.node)
         # Set up ROS related variables
         self.__episode_num = 0
         self.__cumulated_episode_reward = 0

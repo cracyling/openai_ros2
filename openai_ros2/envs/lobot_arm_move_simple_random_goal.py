@@ -14,7 +14,6 @@ class LobotArmMoveSimpleRandomGoalEnv(gym.Env):
         step_count: int = 0
         contact_count: int = 0
         # the data in this contacts array is an object of gazebo_msgs.msg.ContactState
-        #TODO include reward coordnte
         contacts: numpy.ndarray = numpy.array([])
 
     def __init__(self):

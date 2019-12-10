@@ -6,5 +6,6 @@
     "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.linting.pylintEnabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.pythonPath": "/home/siwflhc/anaconda3/envs/arm_gpu/bin/python"
 }
