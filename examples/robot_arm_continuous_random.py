@@ -11,11 +11,11 @@ from openai_ros2.envs import LobotArmMoveRandomConActEnv #LobotArmMoveRandomConA
 #from openai_ros2.robots import LobotArmConActSim   #LobotArmConActSim    #LobotArmSim 
 import rclpy
 import random
-from gym.spaces import MultiDiscrete
+from gym.spaces import Box
 from typing import Type
 
 env: LobotArmMoveRandomConActEnv= gym.make('LobotArmMoveRandom-v1')   #'LobotArmMoveSimple-v0' LobotArmMoveSimpleEnv
-action_space: Type[MultiDiscrete] = env.action_space
+action_space: Type[Box] = env.action_space
 rclpy.spin_once(env.node)
 env.reset()
 while True:
