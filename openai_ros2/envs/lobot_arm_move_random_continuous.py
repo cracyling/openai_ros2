@@ -8,8 +8,8 @@ from openai_ros2.robots.lobot.lobot_arm_sim_continuous import LobotArmConActSim
 from openai_ros2.robots.lobot.tasks.basic_movement_random_goal import LobotArmBasicMovementRandomGoal
 
 class LobotArmMoveRandomConActEnv(gym.Env):
-    class ObservationData:
-        position_data: numpy.ndarray = numpy.array([])
+    class ObservationData:  #TODO need change the name, and change type for baseline  #observation_space   -->ObservationData 
+        position_data: numpy.ndarray = numpy.array([])   #Box(numpy.array([]),numpy.array([]),dtype=numpy.float32)
         velocity_data: numpy.ndarray = numpy.array([])
         step_count: int = 0
         contact_count: int = 0
