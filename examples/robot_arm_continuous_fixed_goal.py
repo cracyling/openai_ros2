@@ -7,14 +7,14 @@ import gym
 import time
 import numpy
 import openai_ros2
-from openai_ros2.envs import LobotArmMoveSimpleRandomGoalEnv
+from openai_ros2.envs import LobotArmMoveSimpleConActEnv
 #from openai_ros2.robots import LobotArmSim
 import rclpy
 import random
 from gym.spaces import Box
 from typing import Type
 
-env: LobotArmMoveSimpleRandomGoalEnv = gym.make('LobotArmMoveSimple-v1')
+env: LobotArmMoveSimpleConActEnv = gym.make('LobotArmMoveSimple-v1')
 action_space: Type[Box] = env.action_space
 rclpy.spin_once(env.node)
 env.reset()
@@ -25,7 +25,7 @@ while True:
         action = action_space.sample()
         observation, reward, done, info = env.step(action)
         # Type hints
-        observation: LobotArmMoveSimpleRandomGoalEnv.ObservationData
+        observation: LobotArmMoveSimpleConActEnv.ObservationData
         reward: float
         done: bool
         info: str
