@@ -7,7 +7,7 @@
     "python.testing.pytestEnabled": true,
     "python.linting.pylintEnabled": false,
     "python.linting.enabled": true,
-    "python.pythonPath": "/usr/bin/python3",
+    "python.pythonPath": "/home/siwflhc/anaconda3/envs/arm_gpu/bin/python",
     "python.linting.mypyEnabled": false,
     "python.linting.banditEnabled": false,
     "python.linting.flake8Enabled": true,
