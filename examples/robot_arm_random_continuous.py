@@ -11,7 +11,9 @@ def main(args=None):
     # v1 - state noise, fixed goal
     # v2 - no noise, random goal
     # v3 - state noise, random goal
-    env: LobotArmEnv = gym.make('LobotArmContinuous-v4')
+    env: LobotArmEnv = gym.make('LobotArmContinuous-v1')
+    env.set_random_init_pos(True)
+    # If unable to set the environment parameters like this, just register more environments like v4 or something
     action_space: Type[Box] = env.action_space
     while True:
         print("-------------Starting----------------")
@@ -19,7 +21,7 @@ def main(args=None):
             # action = numpy.array([1.00, -1.01, 1.01])
             action = action_space.sample()
             action_do_nothing = numpy.array([0.0, 0.0, 0.0])
-            observation, reward, done, info = env.step(action_do_nothing)
+            observation, reward, done, info = env.step(action)
             # Type hints
             observation: numpy.ndarray
             reward: float
