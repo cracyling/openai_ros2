@@ -91,9 +91,8 @@ class LobotArmFixedGoal:
             reward = self.__calc_dist_change(self.previous_coords, current_coords)
         self.previous_coords = current_coords
         accepted_error = 0.001
-        for i in range(3):
-            if abs(self.target_coords[i] - current_coords[i]) > accepted_error:
-                reward=reward+20    #for reward shaping
+        if abs(self.target_coords[0] - current_coords[0]) < accepted_error and abs(self.target_coords[1] - current_coords[1]) < accepted_error and abs(self.target_coords[2] - current_coords[2]) < accepted_error :
+            reward=reward +(20.0/100) #for reward shaping
         upper_bound = observation_space.high[:3]  # First 3 values are the joint states
         lower_bound = observation_space.low[:3]
         min_dist_to_upper_bound = min(abs(joint_states - upper_bound))
@@ -102,7 +101,7 @@ class LobotArmFixedGoal:
         # i.e. limit of 1.57 with accepted dist of 0.1, then the joint can only go until 1.47
         accepted_dist_to_bounds = 0.005
         if (min_dist_to_lower_bound < accepted_dist_to_bounds) or (min_dist_to_upper_bound < accepted_dist_to_bounds): #when reached the joint limit
-            reward=reward-5
+            reward=reward-(20.0/100)
         # Scale up reward so that it is not so small
         reward = reward * 100
         return reward
