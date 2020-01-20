@@ -18,7 +18,7 @@ class Gazebo:
         if launch_description is None:
             launch_description = ut_launch.generate_launch_description_lobot_arm(use_gui)
         self.launch_subp = ut_launch.startLaunchServiceProcess(launch_description)
-        
+
         self.node = Node("openai_ros2_gazebo_node")
         self.node.set_parameters([Parameter('use_sim_time', Parameter.Type.BOOL, True)])
         self._reset_sim = self.node.create_client(Empty, '/reset_simulation')
